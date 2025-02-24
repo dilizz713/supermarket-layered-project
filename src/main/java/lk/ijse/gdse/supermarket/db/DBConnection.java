@@ -26,7 +26,7 @@ public class DBConnection {
     private DBConnection() throws SQLException {
         String URL = "jdbc:mysql://localhost:3306/Supermarketfx?createDatabaseIfNotExist=true";
         String USER = "root";
-        String PASSWORD = "1234";
+        String PASSWORD = "Asd713@#";
         connection = DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
