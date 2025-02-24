@@ -1,4 +1,4 @@
 package lk.ijse.gdse.supermarket.dao;
 
-public class CustomerDAOImpl {
+public interface SuperDAO {
 }

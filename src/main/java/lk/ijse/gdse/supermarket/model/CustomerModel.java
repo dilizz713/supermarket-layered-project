@@ -29,18 +29,7 @@ public class CustomerModel {
      * @getNextCustomerId: Generates the next customer ID.
      * This method retrieves the last customer ID from the database, increments it, and returns the next available customer ID in the format "C001", "C002", etc.
      **/
-    public String getNextCustomerId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("select customer_id from customer order by customer_id desc limit 1");
 
-        if (rst.next()) {
-            String lastId = rst.getString(1); // Last customer ID
-            String substring = lastId.substring(1); // Extract the numeric part
-            int i = Integer.parseInt(substring); // Convert the numeric part to integer
-            int newIdIndex = i + 1; // Increment the number by 1
-            return String.format("C%03d", newIdIndex); // Return the new customer ID in format Cnnn
-        }
-        return "C001"; // Return the default customer ID if no data is found
-    }
 
     /**
      * @param customerDTO: The CustomerDTO object containing customer data.

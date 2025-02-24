@@ -26,10 +26,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.gdse.supermarket.bo.custom.CustomerBO;
+import lk.ijse.gdse.supermarket.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.gdse.supermarket.db.DBConnection;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.tm.CustomerTM;
-import lk.ijse.gdse.supermarket.model.CustomerModel;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
@@ -97,7 +98,7 @@ public class CustomerController implements Initializable {
     @FXML
     private Button btnUpdate;
 
-    CustomerModel customerModel = new CustomerModel();
+    CustomerBO customerBO = new CustomerBOImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,7 +121,7 @@ public class CustomerController implements Initializable {
     private void refreshPage() throws SQLException {
         refreshTable();
 
-        String nextCustomerID = customerModel.getNextCustomerId();
+        String nextCustomerID = customerBO.getNextCustomerId();
         lblCustomerId.setText(nextCustomerID);
 
         txtName.setText("");
@@ -137,7 +138,7 @@ public class CustomerController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<CustomerDTO> customerDTOS = customerModel.getAllCustomers();
+        ArrayList<CustomerDTO> customerDTOS = customerBO.getAllCustomers();
         ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
 
 //        ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
@@ -219,7 +220,7 @@ public class CustomerController implements Initializable {
         if (isValidName && isValidNic && isValidEmail && isValidPhone) {
             CustomerDTO customerDTO = new CustomerDTO(id, name, nic, email, phone);
 
-            boolean isSaved = customerModel.saveCustomer(customerDTO);
+            boolean isSaved = customerBO.saveCustomer(customerDTO);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer saved...!").show();
@@ -238,7 +239,7 @@ public class CustomerController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
 
-            boolean isDeleted = customerModel.deleteCustomer(customerId);
+            boolean isDeleted = customerBO.deleteCustomer(customerId);
 
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer deleted...!").show();
@@ -300,7 +301,7 @@ public class CustomerController implements Initializable {
 
             CustomerDTO customerDTO = new CustomerDTO(id, name, nic, email, phone);
 
-            boolean isUpdate = customerModel.updateCustomer(customerDTO);
+            boolean isUpdate = customerBO.updateCustomer(customerDTO);
 
             if (isUpdate) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer updated...!").show();
