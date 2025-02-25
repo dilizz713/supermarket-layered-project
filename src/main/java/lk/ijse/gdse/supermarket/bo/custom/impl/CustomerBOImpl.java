@@ -5,7 +5,9 @@ import lk.ijse.gdse.supermarket.dao.custom.CustomerDAO;
 import lk.ijse.gdse.supermarket.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.entity.Customer;
+import lk.ijse.gdse.supermarket.util.CrudUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -57,4 +59,28 @@ public class CustomerBOImpl implements CustomerBO {
                 customerDTO.getPhone()
         ));
     }
+
+    public ArrayList<String> getAllCustomerIds() throws SQLException {
+       ArrayList<String> customers = customerDAO.getAllCustomerIds();
+       ArrayList<String> customerIds = new ArrayList<>();
+
+       for (String id : customers) {
+           customerIds.add(id);
+       }
+       return customerIds;
+    }
+
+    public CustomerDTO findById(String selectedCusId) throws SQLException {
+        Customer customers = customerDAO.findById(selectedCusId);
+        return new CustomerDTO(
+                customers.getId(),
+                customers.getName(),
+                customers.getNic(),
+                customers.getEmail(),
+                customers.getPhone()
+        );
+
+    }
+
+
 }

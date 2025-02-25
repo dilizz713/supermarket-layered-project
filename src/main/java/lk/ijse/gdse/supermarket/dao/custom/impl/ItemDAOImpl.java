@@ -88,13 +88,13 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
 
-    public ItemDTO findById(String selectedItemId) throws SQLException {
+    public Item findById(String selectedItemId) throws SQLException {
         // Execute SQL query to find the item by ID
         ResultSet rst = CrudUtil.execute("select * from item where item_id=?", selectedItemId);
 
         // If the item is found, create an ItemDTO object with the retrieved data
         if (rst.next()) {
-            return new ItemDTO(
+            return new Item(
                     rst.getString(1),  // Item ID
                     rst.getString(2),  // Item Name
                     rst.getInt(3),     // Item Quantity

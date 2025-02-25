@@ -3,8 +3,10 @@ package lk.ijse.gdse.supermarket.bo.custom.impl;
 import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
+import lk.ijse.gdse.supermarket.entity.Customer;
 import lk.ijse.gdse.supermarket.entity.Item;
 
 import java.sql.SQLException;
@@ -59,12 +61,25 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public ArrayList<String> getAllItemIds() throws SQLException {
-        return null;
+        ArrayList<String> items = itemDAO.getAllItemIds();
+        ArrayList<String> itemIds = new ArrayList<>();
+
+        for (String itemId : items) {
+            itemIds.add(itemId);
+        }
+        return itemIds;
+
     }
 
     @Override
     public ItemDTO findById(String selectedItemId) throws SQLException {
-        return null;
+        Item items = itemDAO.findById(selectedItemId);
+        return new ItemDTO(
+                items.getItemId(),
+                items.getItemName(),
+                items.getQuantity(),
+                items.getPrice()
+        );
     }
 
     @Override

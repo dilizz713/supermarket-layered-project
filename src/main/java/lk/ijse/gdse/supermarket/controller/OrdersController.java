@@ -19,12 +19,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.gdse.supermarket.bo.custom.CustomerBO;
+import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
+import lk.ijse.gdse.supermarket.bo.custom.OrderBO;
+import lk.ijse.gdse.supermarket.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.gdse.supermarket.bo.custom.impl.ItemBOImpl;
+import lk.ijse.gdse.supermarket.bo.custom.impl.OrderBOImpl;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
 import lk.ijse.gdse.supermarket.dto.tm.CartTM;
-import lk.ijse.gdse.supermarket.model.ItemModel;
 import lk.ijse.gdse.supermarket.model.OrderModel;
 
 import java.net.URL;
@@ -70,10 +75,9 @@ public class OrdersController implements Initializable {
     @FXML
     private TextField txtAddToCartQty;
 
-    // Models to manage data interactions with database or logic layers
-    private final OrderModel orderModel = new OrderModel();
-    private final CustomerModel customerModel = new CustomerModel();
-    private final ItemModel itemModel = new ItemModel();
+    OrderBO orderBO = new OrderBOImpl();
+    ItemBO itemBO = new ItemBOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
 
     // Observable list to manage cart items in TableView
     private final ObservableList<CartTM> cartTMS = FXCollections.observableArrayList();
@@ -113,7 +117,7 @@ public class OrdersController implements Initializable {
      */
     private void refreshPage() throws SQLException {
         // Get the next order ID and set it to the label
-        lblOrderId.setText(orderModel.getNextOrderId());
+        lblOrderId.setText(orderBO.getNextOrderId());
 
         // Set the current date to the order date label
 //        orderDate.setText(String.valueOf(LocalDate.now()));
@@ -149,7 +153,7 @@ public class OrdersController implements Initializable {
      * Load all item IDs into the item ComboBox.
      */
     private void loadItemId() throws SQLException {
-        ArrayList<String> itemIds = itemModel.getAllItemIds();
+        ArrayList<String> itemIds = itemBO.getAllItemIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(itemIds);
         cmbItemId.setItems(observableList);
@@ -159,7 +163,7 @@ public class OrdersController implements Initializable {
      * Load all customer IDs into the customer ComboBox.
      */
     private void loadCustomerIds() throws SQLException {
-        ArrayList<String> customerIds = customerModel.getAllCustomerIds();
+        ArrayList<String> customerIds = customerBO.getAllCustomerIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(customerIds);
         cmbCustomerId.setItems(observableList);
@@ -300,7 +304,7 @@ public class OrdersController implements Initializable {
                 orderDetailsDTOS
         );
 
-        boolean isSaved = orderModel.saveOrder(orderDTO);
+        boolean isSaved = orderBO.saveOrder(orderDTO);
 
         if (isSaved) {
             new Alert(Alert.AlertType.INFORMATION, "Order saved..!").show();
@@ -327,7 +331,7 @@ public class OrdersController implements Initializable {
     @FXML
     void cmbCustomerOnAction(ActionEvent event) throws SQLException {
         String selectedCustomerId = cmbCustomerId.getSelectionModel().getSelectedItem();
-        CustomerDTO customerDTO = customerModel.findById(selectedCustomerId);
+        CustomerDTO customerDTO = customerBO.findById(selectedCustomerId);
 
         // If customer found (customerDTO not null)
         if (customerDTO != null) {
@@ -344,7 +348,7 @@ public class OrdersController implements Initializable {
     @FXML
     void cmbItemOnAction(ActionEvent event) throws SQLException {
         String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
-        ItemDTO itemDTO = itemModel.findById(selectedItemId);
+        ItemDTO itemDTO = itemBO.findById(selectedItemId);
 
         // If item found (itemDTO not null)
         if (itemDTO != null) {

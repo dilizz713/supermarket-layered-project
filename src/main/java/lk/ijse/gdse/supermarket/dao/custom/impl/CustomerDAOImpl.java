@@ -81,11 +81,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerIds;
     }
 
-    public CustomerDTO findById(String selectedCusId) throws SQLException {
+    public Customer findById(String selectedCusId) throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from customer where customer_id=?", selectedCusId);
 
         if (rst.next()) {
-            return new CustomerDTO(
+            return new Customer(
                     rst.getString(1),  // Customer ID
                     rst.getString(2),  // Name
                     rst.getString(3),  // NIC
@@ -93,6 +93,8 @@ public class CustomerDAOImpl implements CustomerDAO {
                     rst.getString(5)   // Phone
             );
         }
-        return null;
+        else{
+            return null;
+        }
     }
 }
