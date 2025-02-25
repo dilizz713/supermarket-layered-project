@@ -20,6 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
+import lk.ijse.gdse.supermarket.bo.custom.impl.ItemBOImpl;
+import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.tm.ItemTM;
 
 import java.net.URL;
@@ -69,7 +72,7 @@ public class ItemController implements Initializable {
     @FXML
     private TextField txtQuantity;
 
-//    private final ItemModel itemModel = new ItemModel();
+    ItemBO itemBO = new ItemBOImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,26 +89,26 @@ public class ItemController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-//        ArrayList<ItemDTO> itemDTOS = itemModel.getAllItems();
-//        ObservableList<ItemTM> itemTMS = FXCollections.observableArrayList();
-//
-//        for (ItemDTO itemDTO : itemDTOS) {
-//            ItemTM itemTM = new ItemTM(
-//                    itemDTO.getItemId(),
-//                    itemDTO.getName(),
-//                    itemDTO.getQuantity(),
-//                    itemDTO.getPrice()
-//            );
-//
-//            itemTMS.add(itemTM);
-//        }
-//
-//        tblItem.setItems(itemTMS);
+        ArrayList<ItemDTO> itemDTOS = itemBO.getAllItems();
+        ObservableList<ItemTM> itemTMS = FXCollections.observableArrayList();
+
+        for (ItemDTO itemDTO : itemDTOS) {
+            ItemTM itemTM = new ItemTM(
+                    itemDTO.getItemId(),
+                    itemDTO.getItemName(),
+                    itemDTO.getQuantity(),
+                    itemDTO.getPrice()
+            );
+
+            itemTMS.add(itemTM);
+        }
+
+        tblItem.setItems(itemTMS);
     }
 
     private void loadNextItemId() throws SQLException {
-//        String nextItemId = itemModel.getNextItemId();
-//        lblItemId.setText(nextItemId);
+        String nextItemId = itemBO.getNextItemId();
+        lblItemId.setText(nextItemId);
 
     }
 
@@ -166,16 +169,16 @@ public class ItemController implements Initializable {
             int quantity = Integer.parseInt(quantityString);
             double price = Double.parseDouble(priceString);
 
-//            ItemDTO itemDTO = new ItemDTO(itemId, name, quantity, price);
-//
-//            boolean isSaved = itemModel.saveItem(itemDTO);
-//
-//            if (isSaved) {
-//                new Alert(Alert.AlertType.INFORMATION, "Item saved successfully!").show();
-//                refreshPage();
-//            } else {
-//                new Alert(Alert.AlertType.ERROR, "Fail to save item!").show();
-//            }
+            ItemDTO itemDTO = new ItemDTO(itemId, name, quantity, price);
+
+            boolean isSaved = itemBO.saveItem(itemDTO);
+
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Item saved successfully!").show();
+                refreshPage();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Fail to save item!").show();
+            }
         }
     }
 
@@ -189,14 +192,14 @@ public class ItemController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.YES) {
-//                boolean isDeleted = itemModel.deleteItem(itemId);
-//
-//                if (isDeleted) {
-//                    new Alert(Alert.AlertType.INFORMATION, "Item deleted successfully!").show();
-//                    refreshPage();
-//                } else {
-//                    new Alert(Alert.AlertType.ERROR, "Failed to delete item!").show();
-//                }
+                boolean isDeleted = itemBO.deleteItem(itemId);
+
+                if (isDeleted) {
+                    new Alert(Alert.AlertType.INFORMATION, "Item deleted successfully!").show();
+                    refreshPage();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to delete item!").show();
+                }
             }
         }
     }
@@ -240,16 +243,16 @@ public class ItemController implements Initializable {
             int quantity = Integer.parseInt(quantityString);
             double price = Double.parseDouble(priceString);
 
-//            ItemDTO updatedItemDTO = new ItemDTO(itemId, name, quantity, price);
-//
-//            boolean isSaved = itemModel.updateItem(updatedItemDTO);
-//
-//            if (isSaved) {
-//                new Alert(Alert.AlertType.INFORMATION, "Item updated successfully!").show();
-//                refreshPage();
-//            } else {
-//                new Alert(Alert.AlertType.ERROR, "Fail to update item!").show();
-//            }
+            ItemDTO updatedItemDTO = new ItemDTO(itemId, name, quantity, price);
+
+            boolean isUpdated = itemBO.updateItem(updatedItemDTO);
+
+            if (isUpdated) {
+                new Alert(Alert.AlertType.INFORMATION, "Item updated successfully!").show();
+                refreshPage();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Fail to update item!").show();
+            }
         }
     }
 

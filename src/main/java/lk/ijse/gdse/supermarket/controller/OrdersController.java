@@ -24,7 +24,6 @@ import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
 import lk.ijse.gdse.supermarket.dto.tm.CartTM;
-import lk.ijse.gdse.supermarket.model.CustomerModel;
 import lk.ijse.gdse.supermarket.model.ItemModel;
 import lk.ijse.gdse.supermarket.model.OrderModel;
 

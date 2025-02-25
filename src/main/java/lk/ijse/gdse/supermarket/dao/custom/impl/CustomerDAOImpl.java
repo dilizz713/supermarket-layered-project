@@ -38,7 +38,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public ArrayList<Customer> getAll() throws SQLException {
         ResultSet rst = CrudUtil.execute("select * from customer");
 
-        ArrayList<Customer> customerDTOS = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
 
         while (rst.next()) {
             Customer entity = new Customer(
@@ -48,9 +48,9 @@ public class CustomerDAOImpl implements CustomerDAO {
                     rst.getString(4),  // Email
                     rst.getString(5)   // Phone
             );
-            customerDTOS.add(entity);
+            customers.add(entity);
         }
-        return customerDTOS;
+        return customers;
     }
 
     public boolean update(Customer entity) throws SQLException {
