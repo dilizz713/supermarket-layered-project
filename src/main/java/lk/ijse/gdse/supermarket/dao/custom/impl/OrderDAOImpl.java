@@ -32,46 +32,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean save(Order dto) throws SQLException {
-        return false;
+    public boolean save(Order entity) throws SQLException {
+       return CrudUtil.execute(
+                "insert into orders values (?,?,?)",
+               entity.getOrderId(),
+               entity.getCustomerId(),
+               entity.getOrderDate()
+        );
     }
 
-   /* @Override
-    public boolean save(Order dto) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        try {
-            // @autoCommit: Disables auto-commit to manually control the transaction
-            connection.setAutoCommit(false); // 1
 
-            // @isOrderSaved: Saves the order details into the orders table
-            boolean isOrderSaved = CrudUtil.execute(
-                    "insert into orders values (?,?,?)",
-                    orderDTO.getOrderId(),
-                    orderDTO.getCustomerId(),
-                    orderDTO.getOrderDate()
-            );
-            // If the order is saved successfully
-            if (isOrderSaved) {
-                // @isOrderDetailListSaved: Saves the list of order details
-                boolean isOrderDetailListSaved = orderDetailsModel.saveOrderDetailsList(orderDTO.getOrderDetailsDTOS());
-                if (isOrderDetailListSaved) {
-                    // @commit: Commits the transaction if both order and details are saved successfully
-                    connection.commit(); // 2
-                    return true;
-                }
-            }
-            // @rollback: Rolls back the transaction if order details saving fails
-            connection.rollback(); // 3
-            return false;
-        } catch (Exception e) {
-            // @catch: Rolls back the transaction in case of any exception
-            connection.rollback();
-            return false;
-        } finally {
-            // @finally: Resets auto-commit to true after the operation
-            connection.setAutoCommit(true); // 4
-        }
-    }*/
 
     @Override
     public ArrayList<Order> getAll() throws SQLException {
