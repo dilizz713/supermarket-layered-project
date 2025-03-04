@@ -1,6 +1,8 @@
 package lk.ijse.gdse.supermarket.bo.custom.impl;
 
 import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
+import lk.ijse.gdse.supermarket.dao.DAOFactory;
+import lk.ijse.gdse.supermarket.dao.custom.CustomerDAO;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
@@ -13,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ItemBOImpl implements ItemBO {
-    ItemDAO itemDAO = new ItemDAOImpl();
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);
     @Override
     public String getNextItemId() throws SQLException {
         return itemDAO.getNextId();

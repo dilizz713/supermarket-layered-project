@@ -26,8 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.gdse.supermarket.bo.BOFactory;
 import lk.ijse.gdse.supermarket.bo.custom.CustomerBO;
-import lk.ijse.gdse.supermarket.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.gdse.supermarket.db.DBConnection;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.tm.CustomerTM;
@@ -98,7 +98,7 @@ public class CustomerController implements Initializable {
     @FXML
     private Button btnUpdate;
 
-    CustomerBO customerBO = new CustomerBOImpl();
+    CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

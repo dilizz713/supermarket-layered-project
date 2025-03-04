@@ -1,5 +1,6 @@
 package lk.ijse.gdse.supermarket.dao.custom.impl;
 
+import lk.ijse.gdse.supermarket.dao.DAOFactory;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
-    ItemDAO itemDAO = new ItemDAOImpl();
+   /* ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);*/
 
    /* public boolean saveOrderDetailsList(ArrayList<OrderDetails> entity) throws SQLException {
         // Iterate through each order detail in the list

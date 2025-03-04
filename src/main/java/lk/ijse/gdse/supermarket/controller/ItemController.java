@@ -20,8 +20,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.gdse.supermarket.bo.BOFactory;
 import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
-import lk.ijse.gdse.supermarket.bo.custom.impl.ItemBOImpl;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.tm.ItemTM;
 
@@ -72,7 +72,7 @@ public class ItemController implements Initializable {
     @FXML
     private TextField txtQuantity;
 
-    ItemBO itemBO = new ItemBOImpl();
+    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

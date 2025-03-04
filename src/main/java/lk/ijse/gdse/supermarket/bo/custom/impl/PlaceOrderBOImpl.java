@@ -1,22 +1,20 @@
 package lk.ijse.gdse.supermarket.bo.custom.impl;
 
+import lk.ijse.gdse.supermarket.bo.BOFactory;
 import lk.ijse.gdse.supermarket.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse.supermarket.bo.custom.PlaceOrderBO;
+import lk.ijse.gdse.supermarket.dao.DAOFactory;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDAO;
-import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
-import lk.ijse.gdse.supermarket.dao.custom.impl.OrderDAOImpl;
-import lk.ijse.gdse.supermarket.dao.custom.impl.OrderDetailsDAOImpl;
 import lk.ijse.gdse.supermarket.db.DBConnection;
 import lk.ijse.gdse.supermarket.dto.OrderDTO;
 import lk.ijse.gdse.supermarket.entity.Order;
-import lk.ijse.gdse.supermarket.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
-    OrderDAO orderDAO = new OrderDAOImpl();
-   OrderDetailsBO orderDetailsBO = new OrderDetailsBOImpl();
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER);
+   OrderDetailsBO orderDetailsBO = (OrderDetailsBO) BOFactory.getInstance().getBO(BOFactory.BOType.ORDERDETAIL);
 
     public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
         // @connection: Retrieves the current connection instance for the database
@@ -30,6 +28,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             // If the order is saved successfully
             if (isOrderSaved) {
                 // @isOrderDetailListSaved: Saves the list of order details
+                System.out.println(orderDTO.getOrderId());
                 boolean isOrderDetailListSaved = orderDetailsBO.saveOrderDetailsList(orderDTO.getOrderDetailsDTOS());
                 if (isOrderDetailListSaved) {
                     // @commit: Commits the transaction if both order and details are saved successfully

@@ -20,4 +20,5 @@ public class Order {
 
     // @orderDetailsDTOS: A list of OrderDetailsDTO objects, each representing an item in the order
     private ArrayList<OrderDetailsDTO> orderDetailsDTOS;
+
 }

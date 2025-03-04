@@ -1,6 +1,8 @@
 package lk.ijse.gdse.supermarket.bo.custom.impl;
 
 import lk.ijse.gdse.supermarket.bo.custom.OrderDetailsBO;
+import lk.ijse.gdse.supermarket.dao.DAOFactory;
+import lk.ijse.gdse.supermarket.dao.custom.CustomerDAO;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
@@ -15,8 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailsBOImpl implements OrderDetailsBO {
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERDETAIL);
 
     public boolean saveOrderDetailsList(ArrayList<OrderDetailsDTO> dtos) throws SQLException {
         // Iterate through each order detail in the list

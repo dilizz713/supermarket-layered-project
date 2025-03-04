@@ -19,12 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.gdse.supermarket.bo.custom.CustomerBO;
-import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
-import lk.ijse.gdse.supermarket.bo.custom.OrderBO;
-import lk.ijse.gdse.supermarket.bo.custom.impl.CustomerBOImpl;
-import lk.ijse.gdse.supermarket.bo.custom.impl.ItemBOImpl;
-import lk.ijse.gdse.supermarket.bo.custom.impl.OrderBOImpl;
+import lk.ijse.gdse.supermarket.bo.BOFactory;
+import lk.ijse.gdse.supermarket.bo.custom.*;
 import lk.ijse.gdse.supermarket.bo.custom.impl.PlaceOrderBOImpl;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
@@ -76,10 +72,10 @@ public class OrdersController implements Initializable {
     @FXML
     private TextField txtAddToCartQty;
 
-    PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
-    OrderBO orderBO = new OrderBOImpl();
-    ItemBO itemBO = new ItemBOImpl();
-    CustomerBO customerBO = new CustomerBOImpl();
+    PlaceOrderBO placeOrderBO =(PlaceOrderBO) BOFactory.getInstance().getBO(BOFactory.BOType.PLACEORDER);
+    OrderBO orderBO =(OrderBO) BOFactory.getInstance().getBO(BOFactory.BOType.ORDER);
+    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
+    CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
 
     // Observable list to manage cart items in TableView
     private final ObservableList<CartTM> cartTMS = FXCollections.observableArrayList();
