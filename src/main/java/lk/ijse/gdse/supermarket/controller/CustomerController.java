@@ -98,7 +98,7 @@ public class CustomerController implements Initializable {
     @FXML
     private Button btnUpdate;
 
-    CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.CUSTOMER);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

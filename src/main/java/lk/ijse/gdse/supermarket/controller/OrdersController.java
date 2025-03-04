@@ -74,10 +74,10 @@ public class OrdersController implements Initializable {
     @FXML
     private TextField txtAddToCartQty;
 
-    PlaceOrderBO placeOrderBO =(PlaceOrderBO) BOFactory.getInstance().getBO(BOFactory.BOType.PLACEORDER);
-    OrderBO orderBO =(OrderBO) BOFactory.getInstance().getBO(BOFactory.BOType.ORDER);
-    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
-    CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+    PlaceOrderBO placeOrderBO =(PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.PLACEORDER);
+    OrderBO orderBO =(OrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ORDER);
+    ItemBO itemBO = (ItemBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ITEM);
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.CUSTOMER);
 
     // Observable list to manage cart items in TableView
     private final ObservableList<CartTM> cartTMS = FXCollections.observableArrayList();

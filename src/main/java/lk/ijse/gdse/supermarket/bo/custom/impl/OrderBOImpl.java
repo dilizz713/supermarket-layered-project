@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class OrderBOImpl implements OrderBO {
-    OrderDAO orderDAO = (OrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOType.ORDER);
 
     @Override
     public Optional<String> getNextOrderId() throws SQLException {

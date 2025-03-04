@@ -11,7 +11,7 @@ public class DAOFactory {
 
     }
 
-    public static DAOFactory getInstance() {
+    public static DAOFactory getDaoFactory() {
         if (daoFactory == null) {
             daoFactory = new DAOFactory();
         }

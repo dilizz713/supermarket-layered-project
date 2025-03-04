@@ -73,7 +73,7 @@ public class ItemController implements Initializable {
     @FXML
     private TextField txtQuantity;
 
-    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
+    ItemBO itemBO = (ItemBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ITEM);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

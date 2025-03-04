@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class OrderDetailsBOImpl implements OrderDetailsBO {
    /* ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);*/
-    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
-    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERDETAIL);
+    ItemBO itemBO = (ItemBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ITEM);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOType.ORDERDETAIL);
 
     public boolean saveOrderDetailsList(ArrayList<OrderDetailsDTO> dtos) throws SQLException {
         // Iterate through each order detail in the list

@@ -13,8 +13,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
-    OrderDAO orderDAO = (OrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER);
-   OrderDetailsBO orderDetailsBO = (OrderDetailsBO) BOFactory.getInstance().getBO(BOFactory.BOType.ORDERDETAIL);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOType.ORDER);
+   OrderDetailsBO orderDetailsBO = (OrderDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ORDERDETAIL);
 
     public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
         // @connection: Retrieves the current connection instance for the database

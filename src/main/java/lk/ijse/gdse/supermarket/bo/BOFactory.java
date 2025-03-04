@@ -8,7 +8,7 @@ public class BOFactory {
     private BOFactory() {
     }
 
-    public static BOFactory getInstance() {
+    public static BOFactory getBoFactory() {
         if (boFactory == null) {
             boFactory = new BOFactory();
         }
