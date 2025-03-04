@@ -1,5 +1,6 @@
 package lk.ijse.gdse.supermarket.bo.custom.impl;
 
+import lk.ijse.gdse.supermarket.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse.supermarket.bo.custom.PlaceOrderBO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
     OrderDAO orderDAO = new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+   OrderDetailsBO orderDetailsBO = new OrderDetailsBOImpl();
 
     public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
         // @connection: Retrieves the current connection instance for the database
@@ -29,7 +30,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             // If the order is saved successfully
             if (isOrderSaved) {
                 // @isOrderDetailListSaved: Saves the list of order details
-                boolean isOrderDetailListSaved = orderDetailsDAO.saveOrderDetailsList(orderDTO.getOrderDetailsDTOS());
+                boolean isOrderDetailListSaved = orderDetailsBO.saveOrderDetailsList(orderDTO.getOrderDetailsDTOS());
                 if (isOrderDetailListSaved) {
                     // @commit: Commits the transaction if both order and details are saved successfully
                     connection.commit(); // 2

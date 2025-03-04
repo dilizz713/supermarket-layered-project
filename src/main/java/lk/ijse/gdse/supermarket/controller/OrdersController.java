@@ -25,6 +25,7 @@ import lk.ijse.gdse.supermarket.bo.custom.OrderBO;
 import lk.ijse.gdse.supermarket.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.gdse.supermarket.bo.custom.impl.ItemBOImpl;
 import lk.ijse.gdse.supermarket.bo.custom.impl.OrderBOImpl;
+import lk.ijse.gdse.supermarket.bo.custom.impl.PlaceOrderBOImpl;
 import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDTO;
@@ -75,6 +76,7 @@ public class OrdersController implements Initializable {
     @FXML
     private TextField txtAddToCartQty;
 
+    PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
     OrderBO orderBO = new OrderBOImpl();
     ItemBO itemBO = new ItemBOImpl();
     CustomerBO customerBO = new CustomerBOImpl();
@@ -304,7 +306,7 @@ public class OrdersController implements Initializable {
                 orderDetailsDTOS
         );
 
-        boolean isSaved = orderBO.saveOrder(orderDTO);
+        boolean isSaved = placeOrderBO.saveOrder(orderDTO);
 
         if (isSaved) {
             new Alert(Alert.AlertType.INFORMATION, "Order saved..!").show();

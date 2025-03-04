@@ -14,5 +14,5 @@ public interface ItemDAO extends CrudDAO<Item> {
 
     Item findById(String selectedItemId) throws SQLException;
 
-    boolean reduceQty(OrderDetails entity) throws SQLException;
+    boolean reduceQty(OrderDetailsDTO dto) throws SQLException;
 }

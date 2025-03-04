@@ -1,7 +1,12 @@
-package lk.ijse.gdse.supermarket.dao.custom.impl;
+package lk.ijse.gdse.supermarket.bo.custom.impl;
 
+import lk.ijse.gdse.supermarket.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
+import lk.ijse.gdse.supermarket.dao.custom.OrderDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
+import lk.ijse.gdse.supermarket.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.gdse.supermarket.dao.custom.impl.OrderDAOImpl;
+import lk.ijse.gdse.supermarket.dao.custom.impl.OrderDetailsDAOImpl;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
 import lk.ijse.gdse.supermarket.entity.OrderDetails;
 import lk.ijse.gdse.supermarket.util.CrudUtil;
@@ -9,13 +14,13 @@ import lk.ijse.gdse.supermarket.util.CrudUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderDetailsDAOImpl implements OrderDetailsDAO {
-
+public class OrderDetailsBOImpl implements OrderDetailsBO {
     ItemDAO itemDAO = new ItemDAOImpl();
+    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
 
-   /* public boolean saveOrderDetailsList(ArrayList<OrderDetails> entity) throws SQLException {
+    public boolean saveOrderDetailsList(ArrayList<OrderDetailsDTO> dtos) throws SQLException {
         // Iterate through each order detail in the list
-        for (OrderDetails orderDetails : entity) {
+        for (OrderDetailsDTO orderDetails : dtos) {
             // @isOrderDetailsSaved: Saves the individual order detail
             boolean isOrderDetailsSaved = save(orderDetails);
             if (!isOrderDetailsSaved) {
@@ -32,37 +37,17 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
         }
         // Return true if all order details are saved and item quantities updated successfully
         return true;
-    }*/
-
-    @Override
-    public boolean save(OrderDetails entity) throws SQLException {
-        // Executes an insert query to save the order detail into the database
-        return CrudUtil.execute(
-                "insert into orderdetails values (?,?,?,?)",
-                entity.getOrderId(),
-                entity.getItemId(),
-                entity.getQuantity(),
-                entity.getPrice()
-        );
     }
 
-    @Override
-    public String getNextId() throws SQLException {
-        return "";
+
+    public boolean save(OrderDetailsDTO dto) throws SQLException {
+        return orderDetailsDAO.save(new OrderDetails(
+                dto.getOrderId(),
+                dto.getItemId(),
+                dto.getQuantity(),
+                dto.getPrice()
+        ));
     }
 
-    @Override
-    public ArrayList<OrderDetails> getAll() throws SQLException {
-        return null;
-    }
 
-    @Override
-    public boolean update(OrderDetails dto) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(String id) throws SQLException {
-        return false;
-    }
 }

@@ -107,12 +107,12 @@ public class ItemDAOImpl implements ItemDAO {
         return null;
     }
 
-    public boolean reduceQty(OrderDetails entity) throws SQLException {
+    public boolean reduceQty(OrderDetailsDTO dto) throws SQLException {
         // Execute SQL query to update the item quantity in the database
         return CrudUtil.execute(
                 "update item set quantity = quantity - ? where item_id = ?",
-                entity.getQuantity(),   // Quantity to reduce
-                entity.getItemId()      // Item ID
+                dto.getQuantity(),   // Quantity to reduce
+                dto.getItemId()      // Item ID
         );
     }
 }
