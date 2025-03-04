@@ -28,4 +28,6 @@ public class OrderDetails {
     private Item item;
 
 
+    public OrderDetails(String orderId, String itemId, int quantity, double price) {
+    }
 }

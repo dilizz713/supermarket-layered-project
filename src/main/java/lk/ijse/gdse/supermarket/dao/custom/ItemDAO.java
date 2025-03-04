@@ -7,12 +7,14 @@ import lk.ijse.gdse.supermarket.entity.Item;
 import lk.ijse.gdse.supermarket.entity.OrderDetails;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface ItemDAO extends CrudDAO<Item> {
-    ArrayList<String> getAllItemIds() throws SQLException;
+    List<String> getAllItemIds() throws SQLException;
 
-    Item findById(String selectedItemId) throws SQLException;
+    Optional<Item> findById(String selectedItemId) throws SQLException;
 
-    boolean reduceQty(OrderDetailsDTO dto) throws SQLException;
+   //boolean reduceQty(OrderDetailsDTO dto) throws SQLException;
 }

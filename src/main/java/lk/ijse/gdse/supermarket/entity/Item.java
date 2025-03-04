@@ -21,4 +21,8 @@ public class Item {
 
     @OneToMany(mappedBy = "item" , cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
+
+    public Item(String itemId, String itemName, int quantity, double price) {
+    }
+
 }

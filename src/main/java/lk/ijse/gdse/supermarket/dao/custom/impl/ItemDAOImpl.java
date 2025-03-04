@@ -1,20 +1,29 @@
 package lk.ijse.gdse.supermarket.dao.custom.impl;
 
+import lk.ijse.gdse.supermarket.config.FactoryConfiguration;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dto.ItemDTO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
+import lk.ijse.gdse.supermarket.entity.Customer;
 import lk.ijse.gdse.supermarket.entity.Item;
 import lk.ijse.gdse.supermarket.entity.OrderDetails;
 import lk.ijse.gdse.supermarket.util.CrudUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ItemDAOImpl implements ItemDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
+
     @Override
-    public String getNextId() throws SQLException {
-        ResultSet rst = CrudUtil.execute("select item_id from item order by item_id desc limit 1");
+    public Optional<String> getNextId() throws SQLException {
+        /*ResultSet rst = CrudUtil.execute("select item_id from item order by item_id desc limit 1");
 
         if (rst.next()) {
             String lastId = rst.getString(1);
@@ -23,23 +32,43 @@ public class ItemDAOImpl implements ItemDAO {
             int newIdIndex = i + 1;
             return String.format("I%03d", newIdIndex);
         }
-        return "I001";
+        return "I001";*/
+        Session session = factoryConfiguration.getSession();
+        String nextId = session
+                .createQuery("select i.id from item i order by i.id desc", String.class)
+                .setMaxResults(1)
+                .uniqueResult();
+        return Optional.ofNullable(nextId);
     }
 
     @Override
-    public boolean save(Item entity) throws SQLException {
-        return CrudUtil.execute(
+    public boolean save(Item item) throws SQLException {
+       /* return CrudUtil.execute(
                 "insert into item values (? , ? , ? , ? )",
                 entity.getItemId(),
                 entity.getItemName(),
                 entity.getQuantity(),
                 entity.getPrice()
-        );
+        );*/
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.persist(item);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public ArrayList<Item> getAll() throws SQLException {
-        ResultSet rst = CrudUtil.execute("select * from item");
+    public List<Item> getAll() throws SQLException {
+       /* ResultSet rst = CrudUtil.execute("select * from item");
         ArrayList<Item> items = new ArrayList<>();
         while (rst.next()) {
             Item item = new Item(
@@ -50,31 +79,56 @@ public class ItemDAOImpl implements ItemDAO {
             );
             items.add(item);
         }
-        return items;
+        return items;*/
+        Session session = factoryConfiguration.getSession();
+        Query<Item> query = session.createQuery("from Item", Item.class);
+        List<Item> list = query.list();
+        return list;
     }
 
     @Override
-    public boolean update(Item entity) throws SQLException {
-        return CrudUtil.execute(
-                "update item set item_name = ?, quantity = ?, price = ? where item_id = ?",
-                entity.getItemName(),
-                entity.getQuantity(),
-                entity.getPrice(),
-                entity.getItemId()
-        );
+    public boolean update(Item item) throws SQLException {
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.merge(item);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public boolean delete(String id) throws SQLException {
-        return CrudUtil.execute(
-                "delete from item where item_id=?",id
-
-        );
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Item item = session.get(Item.class, id);
+            if (item != null) {
+                return false;
+            }
+            session.remove(item);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
-    public ArrayList<String> getAllItemIds() throws SQLException {
+    public List<String> getAllItemIds() throws SQLException {
         // Execute SQL query to get all item IDs
-        ResultSet rst = CrudUtil.execute("select item_id from item");
+        /*ResultSet rst = CrudUtil.execute("select item_id from item");
 
         // Create an ArrayList to store the item IDs
         ArrayList<String> itemIds = new ArrayList<>();
@@ -85,13 +139,19 @@ public class ItemDAOImpl implements ItemDAO {
         }
 
         // Return the list of item IDs
+        return itemIds;*/
+        Session session = factoryConfiguration.getSession();
+        List<String> itemIds = session
+                .createQuery("select i.id from item", String.class)
+                .list();
+        session.close();
         return itemIds;
     }
 
 
-    public Item findById(String selectedItemId) throws SQLException {
+    public Optional<Item> findById(String selectedItemId) throws SQLException {
         // Execute SQL query to find the item by ID
-        ResultSet rst = CrudUtil.execute("select * from item where item_id=?", selectedItemId);
+       /* ResultSet rst = CrudUtil.execute("select * from item where item_id=?", selectedItemId);
 
         // If the item is found, create an ItemDTO object with the retrieved data
         if (rst.next()) {
@@ -100,19 +160,28 @@ public class ItemDAOImpl implements ItemDAO {
                     rst.getString(2),  // Item Name
                     rst.getInt(3),     // Item Quantity
                     rst.getDouble(4)   // Item Price
-            );
-        }
-
+            );*/
         // Return null if the item is not found
-        return null;
+        /*return null;*/
+        Session session = factoryConfiguration.getSession();
+        Item item = session.get(Item.class, selectedItemId);
+        session.close();
+        if (item == null) {
+            return Optional.empty();
+        }
+        return Optional.of(item);
+
     }
 
-    public boolean reduceQty(OrderDetailsDTO dto) throws SQLException {
+
+    /*public boolean reduceQty(OrderDetailsDTO dto) throws SQLException {
         // Execute SQL query to update the item quantity in the database
         return CrudUtil.execute(
                 "update item set quantity = quantity - ? where item_id = ?",
                 dto.getQuantity(),   // Quantity to reduce
                 dto.getItemId()      // Item ID
         );
-    }
+    }*/
 }
+
+

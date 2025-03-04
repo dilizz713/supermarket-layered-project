@@ -5,11 +5,13 @@ import lk.ijse.gdse.supermarket.dto.CustomerDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface CustomerBO extends SuperBO {
-    ArrayList<CustomerDTO> getAllCustomers() throws SQLException;
+    List<CustomerDTO> getAllCustomers() throws SQLException;
 
-    String getNextCustomerId() throws SQLException;
+    Optional<String> getNextCustomerId() throws SQLException;
 
     boolean saveCustomer(CustomerDTO customerDTO) throws SQLException;
 
@@ -17,8 +19,8 @@ public interface CustomerBO extends SuperBO {
 
     boolean updateCustomer(CustomerDTO customerDTO) throws SQLException;
 
-    ArrayList<String> getAllCustomerIds() throws SQLException;
+    List<String> getAllCustomerIds() throws SQLException;
 
-    CustomerDTO findById(String selectedCusId) throws SQLException;
+    Optional<CustomerDTO> findById(String selectedCusId) throws SQLException;
 
 }

@@ -34,6 +34,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class OrdersController implements Initializable {
@@ -115,7 +117,7 @@ public class OrdersController implements Initializable {
      */
     private void refreshPage() throws SQLException {
         // Get the next order ID and set it to the label
-        lblOrderId.setText(orderBO.getNextOrderId());
+        lblOrderId.setText(String.valueOf(orderBO.getNextOrderId()));
 
         // Set the current date to the order date label
 //        orderDate.setText(String.valueOf(LocalDate.now()));
@@ -151,7 +153,7 @@ public class OrdersController implements Initializable {
      * Load all item IDs into the item ComboBox.
      */
     private void loadItemId() throws SQLException {
-        ArrayList<String> itemIds = itemBO.getAllItemIds();
+        List<String> itemIds = itemBO.getAllItemIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(itemIds);
         cmbItemId.setItems(observableList);
@@ -161,7 +163,7 @@ public class OrdersController implements Initializable {
      * Load all customer IDs into the customer ComboBox.
      */
     private void loadCustomerIds() throws SQLException {
-        ArrayList<String> customerIds = customerBO.getAllCustomerIds();
+        List<String> customerIds = customerBO.getAllCustomerIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(customerIds);
         cmbCustomerId.setItems(observableList);
@@ -329,13 +331,19 @@ public class OrdersController implements Initializable {
     @FXML
     void cmbCustomerOnAction(ActionEvent event) throws SQLException {
         String selectedCustomerId = cmbCustomerId.getSelectionModel().getSelectedItem();
-        CustomerDTO customerDTO = customerBO.findById(selectedCustomerId);
+        Optional<CustomerDTO> customerDTO = customerBO.findById(selectedCustomerId);
 
         // If customer found (customerDTO not null)
-        if (customerDTO != null) {
+       /* if (customerDTO != null) {
 
             // FIll customer related labels
             lblCustomerName.setText(customerDTO.getName());
+        }*/
+        if(customerDTO.isPresent()) {
+            CustomerDTO customerDTO1 = customerDTO.get();
+            lblItemName.setText(customerDTO1.getName());
+        }else{
+            System.out.println("Customer not found");
         }
     }
 
@@ -346,15 +354,23 @@ public class OrdersController implements Initializable {
     @FXML
     void cmbItemOnAction(ActionEvent event) throws SQLException {
         String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
-        ItemDTO itemDTO = itemBO.findById(selectedItemId);
+        Optional<ItemDTO> itemDTO = itemBO.findById(selectedItemId);
 
         // If item found (itemDTO not null)
-        if (itemDTO != null) {
+       /* if (itemDTO != null) {
 
             // FIll item related labels
             lblItemName.setText(itemDTO.getItemName());
             lblItemQty.setText(String.valueOf(itemDTO.getQuantity()));
             lblItemPrice.setText(String.valueOf(itemDTO.getPrice()));
+        }*/
+        if(itemDTO.isPresent()) {
+            ItemDTO itemDTO1 = itemDTO.get();
+            lblItemName.setText(itemDTO1.getItemName());
+            lblItemQty.setText(String.valueOf(itemDTO1.getQuantity()));
+            lblItemPrice.setText(String.valueOf(itemDTO1.getPrice()));
+        }else{
+            System.out.println("Item not found");
         }
     }
 

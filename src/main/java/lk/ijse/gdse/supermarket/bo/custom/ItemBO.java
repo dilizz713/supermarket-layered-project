@@ -7,21 +7,23 @@ import lk.ijse.gdse.supermarket.entity.Item;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface ItemBO extends SuperBO {
-    String getNextItemId() throws SQLException;
+    Optional<String> getNextItemId() throws SQLException;
 
     boolean saveItem(ItemDTO itemDTO) throws SQLException;
 
-    ArrayList<ItemDTO> getAllItems() throws SQLException;
+    List<ItemDTO> getAllItems() throws SQLException;
 
     boolean updateItem(ItemDTO itemDTO) throws SQLException;
 
     boolean deleteItem(String id) throws SQLException;
 
-    ArrayList<String> getAllItemIds() throws SQLException;
+    List<String> getAllItemIds() throws SQLException;
 
-    ItemDTO findById(String selectedItemId) throws SQLException;
+    Optional<ItemDTO> findById(String selectedItemId) throws SQLException;
 
     boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException;
 }

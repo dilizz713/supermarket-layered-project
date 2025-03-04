@@ -1,5 +1,7 @@
 package lk.ijse.gdse.supermarket.bo.custom.impl;
 
+import lk.ijse.gdse.supermarket.bo.BOFactory;
+import lk.ijse.gdse.supermarket.bo.custom.ItemBO;
 import lk.ijse.gdse.supermarket.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse.supermarket.dao.DAOFactory;
 import lk.ijse.gdse.supermarket.dao.custom.CustomerDAO;
@@ -17,7 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailsBOImpl implements OrderDetailsBO {
-    ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);
+   /* ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);*/
+    ItemBO itemBO = (ItemBO) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
     OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERDETAIL);
 
     public boolean saveOrderDetailsList(ArrayList<OrderDetailsDTO> dtos) throws SQLException {
@@ -31,7 +34,7 @@ public class OrderDetailsBOImpl implements OrderDetailsBO {
             }
 
             // @isItemUpdated: Updates the item quantity in the stock for the corresponding order detail
-            boolean isItemUpdated = itemDAO.reduceQty(orderDetails);
+            boolean isItemUpdated = itemBO.reduceQty(orderDetails);
             if (!isItemUpdated) {
                 // Return false if updating the item quantity fails
                 return false;

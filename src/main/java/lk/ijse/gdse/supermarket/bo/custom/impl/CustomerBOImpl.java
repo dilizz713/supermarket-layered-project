@@ -11,17 +11,20 @@ import lk.ijse.gdse.supermarket.util.CrudUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CustomerBOImpl implements CustomerBO {
     CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.CUSTOMER);
 
-    public String getNextCustomerId() throws SQLException {
+    public Optional<String> getNextCustomerId() throws SQLException {
         return customerDAO.getNextId();
     }
 
-    public ArrayList<CustomerDTO> getAllCustomers() throws SQLException {
-        ArrayList<Customer> customers = customerDAO.getAll();
-        ArrayList<CustomerDTO> customerDTOs = new ArrayList<>();
+    public List<CustomerDTO> getAllCustomers() throws SQLException {
+      /*  List<Customer> customers = customerDAO.getAll();
+        List<CustomerDTO> customerDTOs = new ArrayList<>();
 
         for (Customer customer : customers) {
             customerDTOs.add(new CustomerDTO(
@@ -33,7 +36,17 @@ public class CustomerBOImpl implements CustomerBO {
             ));
 
         }
-        return customerDTOs;
+        return customerDTOs;*/
+        List<Customer> customers = customerDAO.getAll();
+        return customers.stream()
+                .map(customer -> new CustomerDTO(
+                        customer.getId(),
+                        customer.getName(),
+                        customer.getNic(),
+                        customer.getEmail(),
+                        customer.getPhone()
+                ))
+                .collect(Collectors.toList());
 
     }
 
@@ -61,18 +74,19 @@ public class CustomerBOImpl implements CustomerBO {
         ));
     }
 
-    public ArrayList<String> getAllCustomerIds() throws SQLException {
-       ArrayList<String> customers = customerDAO.getAllCustomerIds();
+    public List<String> getAllCustomerIds() throws SQLException {
+      /* ArrayList<String> customers = customerDAO.getAllCustomerIds();
        ArrayList<String> customerIds = new ArrayList<>();
 
        for (String id : customers) {
            customerIds.add(id);
        }
-       return customerIds;
+       return customerIds;*/
+        return customerDAO.getAllCustomerIds();
     }
 
-    public CustomerDTO findById(String selectedCusId) throws SQLException {
-        Customer customers = customerDAO.findById(selectedCusId);
+    public Optional<CustomerDTO> findById(String selectedCusId) throws SQLException {
+        /*Customer customers = customerDAO.findById(selectedCusId);
 
         if(customers == null){
             return null;
@@ -84,7 +98,15 @@ public class CustomerBOImpl implements CustomerBO {
                 customers.getNic(),
                 customers.getEmail(),
                 customers.getPhone()
-        );
+        );*/
+    Optional<Customer> customer = customerDAO.findById(selectedCusId);
+    return customer.map(c -> new CustomerDTO(
+            c.getId(),
+            c.getName(),
+            c.getNic(),
+            c.getEmail(),
+            c.getPhone()
+    ));
 
     }
 

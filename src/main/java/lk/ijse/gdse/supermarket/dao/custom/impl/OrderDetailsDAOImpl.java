@@ -1,16 +1,22 @@
 package lk.ijse.gdse.supermarket.dao.custom.impl;
 
+import lk.ijse.gdse.supermarket.config.FactoryConfiguration;
 import lk.ijse.gdse.supermarket.dao.DAOFactory;
 import lk.ijse.gdse.supermarket.dao.custom.ItemDAO;
 import lk.ijse.gdse.supermarket.dao.custom.OrderDetailsDAO;
 import lk.ijse.gdse.supermarket.dto.OrderDetailsDTO;
 import lk.ijse.gdse.supermarket.entity.OrderDetails;
 import lk.ijse.gdse.supermarket.util.CrudUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
 
    /* ItemDAO itemDAO = (ItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);*/
 
@@ -36,24 +42,38 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }*/
 
     @Override
-    public boolean save(OrderDetails entity) throws SQLException {
+    public boolean save(OrderDetails orderDetails) throws SQLException {
         // Executes an insert query to save the order detail into the database
-        return CrudUtil.execute(
+       /* return CrudUtil.execute(
                 "insert into orderdetails values (?,?,?,?)",
                 entity.getOrderId(),
                 entity.getItemId(),
                 entity.getQuantity(),
                 entity.getPrice()
-        );
+        );*/
+        Session session = factoryConfiguration.getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            session.persist(orderDetails);
+            transaction.commit();
+            return true;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return "";
+    public Optional<String> getNextId() throws SQLException {
+        return null;
     }
 
     @Override
-    public ArrayList<OrderDetails> getAll() throws SQLException {
+    public List<OrderDetails> getAll() throws SQLException {
         return null;
     }
 

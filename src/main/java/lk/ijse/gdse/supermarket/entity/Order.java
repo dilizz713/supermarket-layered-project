@@ -31,4 +31,6 @@ public class Order {
     @OneToMany(mappedBy = "orders" , cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 
+    public Order(String orderId, String customerId, Date orderDate, ArrayList<OrderDetailsDTO> orderDetailsDTOS) {
+    }
 }

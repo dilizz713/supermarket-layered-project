@@ -6,9 +6,11 @@ import lk.ijse.gdse.supermarket.entity.Customer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface CustomerDAO extends CrudDAO<Customer> {
-    ArrayList<String> getAllCustomerIds() throws SQLException;
+    List<String> getAllCustomerIds() throws SQLException;
 
-    Customer findById(String selectedCusId) throws SQLException;
+    Optional findById(String selectedCusId) throws SQLException;
 }

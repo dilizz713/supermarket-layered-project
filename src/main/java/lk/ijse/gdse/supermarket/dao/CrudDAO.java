@@ -5,13 +5,15 @@ import lk.ijse.gdse.supermarket.entity.Customer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface CrudDAO<T> extends SuperDAO{
-    String getNextId() throws SQLException;
+    Optional<String> getNextId() throws SQLException;
 
     boolean save(T dto) throws SQLException;
 
-    ArrayList<T> getAll() throws SQLException;
+    List<T> getAll() throws SQLException;
 
     boolean update(T dto) throws SQLException;
 
