@@ -74,6 +74,9 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public ItemDTO findById(String selectedItemId) throws SQLException {
         Item items = itemDAO.findById(selectedItemId);
+        if (items == null) {
+            return null;  // or handle the error as needed
+        }
         return new ItemDTO(
                 items.getItemId(),
                 items.getItemName(),

@@ -72,6 +72,11 @@ public class CustomerBOImpl implements CustomerBO {
 
     public CustomerDTO findById(String selectedCusId) throws SQLException {
         Customer customers = customerDAO.findById(selectedCusId);
+
+        if(customers == null){
+            return null;
+        }
+
         return new CustomerDTO(
                 customers.getId(),
                 customers.getName(),
